@@ -1,0 +1,60 @@
+{
+  "name": "copilot-agent-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to automate GitHub Copilot prompts as agents",
+  "main": "dist/cli.js",
+  "bin": {
+    "copilot": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "prepublishOnly": "npm run build && npm run test && npm run lint"
+  },
+  "keywords": [
+    "copilot",
+    "github",
+    "cli",
+    "automation",
+    "agent",
+    "vscode",
+    "prompt",
+    "ai"
+  ],
+  "author": "Ares Chen",
+  "license": "MIT",
+  "homepage": "https://github.com/chenxizhang/copilot-agent-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenxizhang/copilot-agent-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chenxizhang/copilot-agent-cli/issues"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.1",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.4.1",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.1.0"
+  }
+}
