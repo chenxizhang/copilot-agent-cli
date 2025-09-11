@@ -1,10 +1,18 @@
-import { createAgentCommand } from '../src/commands/agent';
+import { AgentCommandFactory } from '../src/commands';
+import { ServiceContainer, SERVICE_TOKENS } from '../src/core';
+import { PromptDiscoveryService, VSCodeIntegrationService } from '../src/services';
 
 describe('Agent Commands', () => {
   let command: any;
+  let container: ServiceContainer;
 
   beforeEach(() => {
-    command = createAgentCommand();
+    container = new ServiceContainer();
+    container.register(SERVICE_TOKENS.PROMPT_DISCOVERY, new PromptDiscoveryService());
+    container.register(SERVICE_TOKENS.VSCODE_INTEGRATION, new VSCodeIntegrationService());
+    
+    const factory = new AgentCommandFactory(container);
+    command = factory.createAgentCommand();
   });
 
   test('should have correct command structure', () => {

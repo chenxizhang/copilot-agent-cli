@@ -2,8 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import { Agent, AgentDiscoveryResult } from '../types';
+import { IPromptDiscoveryService } from '../core';
 
-export class PromptDiscoveryService {
+export class PromptDiscoveryService implements IPromptDiscoveryService {
   private getGlobalPromptsPath(): string {
     return path.join(
       os.homedir(),

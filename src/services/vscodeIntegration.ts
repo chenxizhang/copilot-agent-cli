@@ -1,7 +1,8 @@
 import { spawn } from 'child_process';
 import { Agent } from '../types';
+import { IVSCodeIntegrationService } from '../core';
 
-export class VSCodeIntegrationService {
+export class VSCodeIntegrationService implements IVSCodeIntegrationService {
   private isRunningInVSCode(): boolean {
     // Check if running inside VS Code terminal
     return !!(
