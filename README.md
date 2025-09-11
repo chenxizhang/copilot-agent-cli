@@ -1,5 +1,13 @@
 # Copilot Agent CLI
 
+[![npm version](https://badge.fury.io/js/copilot-agent-cli.svg)](https://badge.fury.io/js/copilot-agent-cli)
+[![npm downloads](https://img.shields.io/npm/dm/copilot-agent-cli.svg)](https://www.npmjs.com/package/copilot-agent-cli)
+[![npm total downloads](https://img.shields.io/npm/dt/copilot-agent-cli.svg)](https://www.npmjs.com/package/copilot-agent-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/node/v/copilot-agent-cli.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![GitHub stars](https://img.shields.io/github/stars/chenxizhang/copilot-agent-cli.svg?style=social&label=Star)](https://github.com/chenxizhang/copilot-agent-cli)
+
 A CLI tool to automate GitHub Copilot prompts as agents, allowing you to run predefined prompts with optional context through VS Code's chat interface.
 
 ## Installation
