@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { registerServices } from './infrastructure';
-import { AgentCommandFactory, UpdateCommand } from './commands';
+import { AgentCommandFactory, UpdateCommand, FeedbackCommand } from './commands';
 import { SERVICE_TOKENS } from './core';
 import { ISessionTrackingService, IUpdateCheckerService } from './core/interfaces';
 
@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name('copilot')
   .description('CLI tool to automate GitHub Copilot prompts as agents')
-  .version('1.0.0');
+  .version('1.1.0');
 
 // Initialize dependency injection container
 const container = registerServices();
@@ -42,6 +42,10 @@ program.addCommand(agentCommandFactory.createAgentCommand());
 // Add update command
 const updateCommand = new UpdateCommand(container);
 program.addCommand(updateCommand.createCommand());
+
+// Add feedback command
+const feedbackCommand = new FeedbackCommand(container);
+program.addCommand(feedbackCommand.createCommand());
 
 // Hook into command execution to check for updates
 program.hook('preAction', async () => {

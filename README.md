@@ -8,7 +8,17 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![GitHub stars](https://img.shields.io/github/stars/chenxizhang/copilot-agent-cli.svg?style=social&label=Star)](https://github.com/chenxizhang/copilot-agent-cli)
 
-A CLI tool to automate GitHub Copilot prompts as agents, allowing you to run predefined prompts with optional context through VS Code's chat interface.
+A comprehensive CLI tool to automate GitHub Copilot prompts as agents, featuring intelligent agent management, automatic updates, and user feedback capabilities.
+
+## ✨ Features
+
+- 🤖 **Agent Management**: Discover, list, and run GitHub Copilot agents with rich metadata
+- 📊 **Enhanced List View**: Beautiful table display with agent descriptions, models, tools, and scope
+- 🔄 **Automatic Updates**: Smart update checking and installation with multi-package manager support
+- 💬 **Easy Feedback**: Simple feedback submission directly to GitHub issues
+- 🎯 **Smart Context**: Intelligent context handling based on terminal environment
+- 📁 **Flexible Organization**: Support for both global and project-level agents
+- 🔍 **Case-Insensitive**: Agent names work regardless of case
 
 ## Installation
 
@@ -26,17 +36,33 @@ npm install -g .
 
 ## Usage
 
-The tool provides a `copilot` command with an `agent` subcommand:
+### Agent Management
 
-### List Available Agents
+#### List Available Agents (Enhanced)
 
 ```bash
+# Display agents in a beautiful table with metadata
 copilot agent list
+
+# Show full descriptions without truncation
+copilot agent list --full
+
+# Filter by scope (global or project)
+copilot agent list --scope global
+copilot agent list --scope project
+
+# Filter by model
+copilot agent list --model gpt-4
+
+# Different output formats
+copilot agent list --format json
+copilot agent list --format csv
+
+# Use simple list format (legacy)
+copilot agent list --simple
 ```
 
-This will show all available agents from both global and project-level prompt directories.
-
-### Create a New Agent
+#### Create a New Agent
 
 ```bash
 copilot agent new
@@ -44,7 +70,7 @@ copilot agent new
 
 This command provides guidance on creating new agent prompt files, including file locations, naming conventions, and links to official documentation.
 
-### Run an Agent
+#### Run an Agent
 
 ```bash
 copilot agent run <agent-name> [context]
@@ -55,17 +81,40 @@ Agent names are case-insensitive for convenience.
 Examples:
 ```bash
 # Run agent without additional context
-# Context will be: "Follow the instructions from the file."
 copilot agent run submitForms
 
 # Run agent with additional context
-# Context will be: "Follow the instructions from the file. 我的一些补充信息"
 copilot agent run submitForms "我的一些补充信息"
 
 # Case-insensitive agent names work too
 copilot agent run SUBMITFORMS "uppercase works"
-copilot agent run submitforms "lowercase works"
 ```
+
+### Update Management
+
+#### Check for Updates
+
+```bash
+# Check for available updates
+copilot update --check-only
+
+# Update with confirmation prompt
+copilot update
+
+# Update automatically without prompt
+copilot update --yes
+```
+
+The tool automatically checks for updates on the first command execution per terminal session and notifies you if a newer version is available.
+
+### Feedback
+
+```bash
+# Submit feedback, bug reports, or feature requests
+copilot feedback
+```
+
+Opens the GitHub issues page in your browser for easy feedback submission.
 
 ## Prompt File Locations
 
@@ -80,9 +129,50 @@ When both global and project-level prompts have the same name, the project-level
 
 Prompt files should be named with the pattern: `<agent-name>.prompt.md`
 
-For example:
-- `submitForms.prompt.md` creates an agent named `submitForms`
-- `codeReview.prompt.md` creates an agent named `codeReview`
+The agent name is always extracted from the filename, regardless of any metadata within the file.
+
+### Basic Format
+
+```markdown
+# Agent Name
+
+Your agent instructions go here...
+```
+
+### Enhanced Format with Metadata
+
+You can include YAML front matter to provide rich metadata for better organization:
+
+```markdown
+---
+description: "Performs comprehensive code reviews with security analysis"
+mode: "agent"
+model: "gpt-4"
+tools:
+  - filesystem
+  - git
+  - eslint
+---
+
+# Code Review Agent
+
+This agent performs detailed code reviews...
+```
+
+### Metadata Fields
+
+- **description**: Brief description of what the agent does
+- **mode**: Agent execution mode (e.g., `agent`, `chat`, `completion`)
+- **model**: AI model used (e.g., `gpt-4`, `claude-3-sonnet`)
+- **tools**: List of required tools/extensions
+
+**Note**: The agent name is always derived from the filename (e.g., `code-review.prompt.md` → `code-review`), not from the metadata.
+
+### Examples
+
+- `submitForms.prompt.md` → Agent name: `submitForms`
+- `code-review.prompt.md` → Agent name: `code-review`
+- `data-analysis.prompt.md` → Agent name: `data-analysis`
 
 ## Requirements
 

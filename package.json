@@ -1,6 +1,6 @@
 {
   "name": "copilot-agent-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CLI tool to automate GitHub Copilot prompts as agents",
   "main": "dist/cli.js",
   "bin": {
@@ -42,6 +42,7 @@
   ],
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
@@ -55,6 +56,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "js-yaml": "^4.1.0"
   }
 }

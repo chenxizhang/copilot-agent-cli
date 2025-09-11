@@ -19,6 +19,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm start` - Run the compiled CLI tool locally
 - `npm install -g .` - Install the CLI tool globally for testing
 
+## New Features (v1.1.0)
+
+### Enhanced Agent List Command
+- **Rich Metadata Display**: Beautiful ASCII table showing agent name, description, scope, mode, model, and tools
+- **YAML Front Matter Support**: Parse metadata from prompt files for enhanced organization
+- **Multiple Output Formats**: Table (default), JSON, and CSV formats
+- **Filtering Options**: Filter by scope (global/project) and model
+- **Backward Compatibility**: `--simple` flag maintains legacy list format
+
+### Update Management
+- **Automatic Update Checking**: Smart session-based update notifications on first command execution
+- **Manual Update Command**: `copilot update` with version comparison and user confirmation
+- **Multi-Package Manager Support**: Automatic detection and use of npm, yarn, or pnpm
+- **Comprehensive Error Handling**: Clear error messages and fallback instructions
+
+### Feedback System
+- **Simple Feedback Command**: `copilot feedback` opens GitHub issues page in browser
+- **Cross-Platform Browser Support**: Improved Windows compatibility with proper `cmd.exe` usage
+- **Graceful Degradation**: Fallback to manual URL when browser opening fails
+
 ## Testing
 
 The project uses Jest with ts-jest for testing. Tests are located in the `tests/` directory. Run `npm test` to execute all tests. The test suite includes unit tests for the core prompt discovery functionality.
@@ -41,14 +61,20 @@ The codebase is structured for multi-agent parallel development with clear separ
 
 #### Commands Module (`src/commands/`)
 - **Base Command** (`base.ts`): Abstract base class for all commands
-- **List Command** (`listCommand.ts`): Handles agent listing functionality
+- **List Command** (`listCommand.ts`): Enhanced agent listing with metadata table display
 - **Run Command** (`runCommand.ts`): Handles agent execution
 - **New Command** (`newCommand.ts`): Provides guidance for creating new agents
+- **Update Command** (`updateCommand.ts`): Version checking and package updates
+- **Feedback Command** (`feedbackCommand.ts`): Simple feedback submission via GitHub issues
 - **Command Factory** (`agentCommandFactory.ts`): Creates and wires up all agent commands
 
 #### Services Module (`src/services/`)
 - **Prompt Discovery** (`promptDiscovery.ts`): File system scanning and agent resolution
 - **VS Code Integration** (`vscodeIntegration.ts`): Executes `code chat -a` commands
+- **Metadata Parser** (`metadataParser.ts`): YAML front matter parsing and agent metadata extraction
+- **Table Formatter** (`tableFormatter.ts`): ASCII table generation for enhanced list display
+- **Update Checker** (`updateChecker.ts`): NPM registry version checking and update notifications
+- **Session Tracking** (`sessionTracking.ts`): Per-session state management for update checks
 
 #### Infrastructure Module (`src/infrastructure/`)
 - **Service Registration** (`serviceRegistration.ts`): Bootstraps dependency injection container
@@ -69,9 +95,31 @@ The codebase is structured for multi-agent parallel development with clear separ
 ### Command Structure
 
 ```
-copilot agent list                           # List all available agents
+# Agent Management
+copilot agent list [options]                # Enhanced agent listing with metadata
 copilot agent run <agent-name> [context]    # Run agent with optional context
 copilot agent new                            # Guide to create new agent prompt files
+
+# Update Management
+copilot update [options]                     # Check for and install updates
+
+# Feedback
+copilot feedback                             # Submit feedback via GitHub issues
+```
+
+#### Enhanced List Command Options
+```
+copilot agent list --full                   # Show full descriptions
+copilot agent list --scope global           # Filter by scope
+copilot agent list --model gpt-4            # Filter by model
+copilot agent list --format json            # Output as JSON
+copilot agent list --simple                 # Legacy simple format
+```
+
+#### Update Command Options
+```
+copilot update --check-only                 # Only check for updates
+copilot update --yes                        # Update without confirmation
 ```
 
 The `run` command executes: `code chat -a "<prompt-file-path>" "<context>"` with environment-specific flags.
