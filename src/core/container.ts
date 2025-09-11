@@ -23,4 +23,6 @@ export class ServiceContainer implements IServiceContainer {
 export const SERVICE_TOKENS = {
   PROMPT_DISCOVERY: 'PromptDiscoveryService',
   VSCODE_INTEGRATION: 'VSCodeIntegrationService',
+  SESSION_TRACKING: 'SessionTrackingService',
+  UPDATE_CHECKER: 'UpdateCheckerService',
 } as const;

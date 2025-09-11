@@ -19,3 +19,13 @@ export interface IServiceContainer {
   get<T>(token: string): T;
   register<T>(token: string, implementation: T): void;
 }
+
+export interface ISessionTrackingService {
+  isFirstCommandInSession(): boolean;
+  markSessionStarted(): void;
+}
+
+export interface IUpdateCheckerService {
+  checkForUpdates(): Promise<{ hasUpdate: boolean; currentVersion: string; latestVersion: string } | null>;
+  displayUpdateNotification(currentVersion: string, latestVersion: string): void;
+}
