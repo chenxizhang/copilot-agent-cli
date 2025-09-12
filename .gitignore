@@ -16,7 +16,7 @@ coverage/
 *~
 
 # Test files - do not commit
-.github/
+# .github/ - removed to include copilot-instructions.md
 
 # Claude Code configuration
 .claude/
