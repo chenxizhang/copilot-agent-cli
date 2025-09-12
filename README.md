@@ -88,7 +88,25 @@ copilot agent run submitForms "我的一些补充信息"
 
 # Case-insensitive agent names work too
 copilot agent run SUBMITFORMS "uppercase works"
+
+# Try the built-in helloworld agent (auto-creates on first run)
+copilot agent run helloworld
 ```
+
+#### Built-in Helloworld Agent
+
+The CLI includes a special `helloworld` agent that automatically creates itself when first run:
+
+```bash
+copilot agent run helloworld
+```
+
+This agent:
+- Auto-creates `helloworld.prompt.md` in your global prompts directory on first run
+- Provides a friendly greeting and overview of the copilot agent CLI tool
+- Uses GPT-5 model with fetch tool capability
+- Appears in your agent list after creation
+- Works with case-insensitive names (`helloworld`, `HELLOWORLD`, etc.)
 
 ### Update Management
 
