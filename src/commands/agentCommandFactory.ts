@@ -3,6 +3,7 @@ import { IServiceContainer } from '../core';
 import { ListCommand } from './listCommand';
 import { RunCommand } from './runCommand';
 import { NewCommand } from './newCommand';
+import { DeleteCommand } from './deleteCommand';
 
 export class AgentCommandFactory {
   constructor(private container: IServiceContainer) {}
@@ -14,10 +15,12 @@ export class AgentCommandFactory {
     const listCommand = new ListCommand(this.container);
     const runCommand = new RunCommand(this.container);
     const newCommand = new NewCommand(this.container);
+    const deleteCommand = new DeleteCommand(this.container);
 
     command.addCommand(listCommand.createCommand());
     command.addCommand(runCommand.createCommand());
     command.addCommand(newCommand.createCommand());
+    command.addCommand(deleteCommand.createCommand());
 
     return command;
   }

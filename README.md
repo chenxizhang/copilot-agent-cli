@@ -79,6 +79,28 @@ copilot agent new
 
 This command provides guidance on creating new agent prompt files, including file locations, naming conventions, and links to official documentation.
 
+#### Delete an Agent
+
+```bash
+copilot agent delete <agent-name>
+```
+
+Delete an agent by removing its prompt file. The command will:
+- Locate the agent file (global or project scope)
+- Show agent information before deletion
+- Ask for confirmation before proceeding
+- Remove the file from the filesystem
+
+Examples:
+```bash
+# Delete with confirmation prompt
+copilot agent delete old-agent
+
+# Delete without confirmation (skip prompt)
+copilot agent delete old-agent -y
+copilot agent delete old-agent --yes
+```
+
 #### Run an Agent
 
 ```bash

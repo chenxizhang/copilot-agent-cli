@@ -28,6 +28,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Filtering Options**: Filter by scope (global/project) and model
 - **Backward Compatibility**: `--simple` flag maintains legacy list format
 
+### Agent Delete Command
+- **Safe Deletion**: Delete agent prompt files with confirmation
+- **File Location**: Automatically locates agent files in global or project scope
+- **Confirmation Prompt**: Shows agent information and asks for confirmation before deletion
+- **Skip Confirmation**: Use `-y` or `--yes` flag to skip confirmation prompt
+- **Error Handling**: Clear error messages for missing agents or file system issues
+
 ### Update Management
 - **Automatic Update Checking**: Smart session-based update notifications on first command execution
 - **Manual Update Command**: `copilot update` with version comparison and user confirmation
@@ -99,6 +106,7 @@ The codebase is structured for multi-agent parallel development with clear separ
 copilot agent list [options]                # Enhanced agent listing with metadata
 copilot agent run <agent-name> [context]    # Run agent with optional context
 copilot agent new                            # Guide to create new agent prompt files
+copilot agent delete <agent-name> [options] # Delete agent prompt files
 
 # Update Management
 copilot update [options]                     # Check for and install updates
@@ -114,6 +122,13 @@ copilot agent list --scope global           # Filter by scope
 copilot agent list --model gpt-4            # Filter by model
 copilot agent list --format json            # Output as JSON
 copilot agent list --simple                 # Legacy simple format
+```
+
+#### Delete Command Options
+```
+copilot agent delete <agent-name>           # Delete with confirmation prompt
+copilot agent delete <agent-name> -y        # Delete without confirmation
+copilot agent delete <agent-name> --yes     # Delete without confirmation
 ```
 
 #### Update Command Options
