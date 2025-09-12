@@ -104,6 +104,7 @@ The codebase is structured for multi-agent parallel development with clear separ
 ```
 # Agent Management
 copilot agent list [options]                # Enhanced agent listing with metadata
+copilot agent ls [options]                  # Alias for list command
 copilot agent run <agent-name> [context]    # Run agent with optional context
 copilot agent new                            # Guide to create new agent prompt files
 copilot agent delete <agent-name> [options] # Delete agent prompt files

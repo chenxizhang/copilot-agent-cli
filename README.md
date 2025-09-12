@@ -52,23 +52,25 @@ This will automatically create your first agent and give you an overview of the 
 ```bash
 # Display agents in a beautiful table with metadata
 copilot agent list
+# or use the short alias
+copilot agent ls
 
 # Show full descriptions without truncation
-copilot agent list --full
+copilot agent ls --full
 
 # Filter by scope (global or project)
-copilot agent list --scope global
-copilot agent list --scope project
+copilot agent ls --scope global
+copilot agent ls --scope project
 
 # Filter by model
-copilot agent list --model gpt-4
+copilot agent ls --model gpt-4
 
 # Different output formats
-copilot agent list --format json
-copilot agent list --format csv
+copilot agent ls --format json
+copilot agent ls --format csv
 
 # Use simple list format (legacy)
-copilot agent list --simple
+copilot agent ls --simple
 ```
 
 #### Create a New Agent

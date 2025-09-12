@@ -128,6 +128,7 @@ export class ListCommand extends BaseCommand {
   createCommand(): Command {
     const listCommand = new Command('list');
     listCommand
+      .alias('ls')
       .description('List all available agents with metadata')
       .option('--full', 'Show full descriptions (no truncation)')
       .option('--scope <scope>', 'Filter by scope: global or project')
