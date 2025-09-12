@@ -28,6 +28,6 @@ describe('Agent Commands', () => {
   test('should have new command with correct description', () => {
     const newCommand = command.commands.find((cmd: any) => cmd.name() === 'new');
     expect(newCommand).toBeDefined();
-    expect(newCommand.description()).toBe('Guide to create a new agent prompt file');
+    expect(newCommand.description()).toBe('Create a new agent prompt file');
   });
 });
