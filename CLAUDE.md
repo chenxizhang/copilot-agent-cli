@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm start` - Run the compiled CLI tool locally
 - `npm install -g .` - Install the CLI tool globally for testing
 
-## New Features (v1.1.0)
+## New Features (v1.3.0)
 
 ### Enhanced Agent List Command
 - **Rich Metadata Display**: Beautiful ASCII table showing agent name, description, scope, mode, model, and tools
