@@ -82,71 +82,105 @@ Provide examples of how to use this agent.
       return { type: 'vscode', command: 'code', args: ['-r'] };
     }
 
-    // Windows environments - always use VS Code
+    // Git Bash on Windows - use nano
+    if (process.env.SHELL?.includes('bash') && process.env.OS === 'Windows_NT') {
+      return { type: 'gitbash', command: 'nano', args: [] };
+    }
+
+    // WSL environment - use nano
+    if (process.env.WSL_DISTRO_NAME) {
+      return { type: 'wsl', command: 'nano', args: [] };
+    }
+
+    // Linux environments - use nano
+    if (process.platform === 'linux') {
+      return { type: 'linux', command: 'nano', args: [] };
+    }
+
+    // macOS environments - use nano (most common in Terminal)
+    if (process.platform === 'darwin') {
+      return { type: 'macos', command: 'nano', args: [] };
+    }
+
+    // Windows PowerShell/CMD - use VS Code
     if (process.platform === 'win32') {
       return { type: 'windows', command: 'code', args: ['-n', '--wait'] };
     }
 
-    // WSL environment
-    if (process.env.WSL_DISTRO_NAME) {
-      return { type: 'wsl', command: 'code', args: ['-n', '--wait'] };
-    }
-
-    // Git Bash on Windows
-    if (process.env.SHELL?.includes('bash') && process.env.OS === 'Windows_NT') {
-      return { type: 'gitbash', command: 'code', args: ['-n', '--wait'] };
-    }
-
-    // Linux/Unix environments
-    if (process.platform === 'linux' || process.platform === 'darwin') {
-      return { type: 'unix', command: 'code', args: ['-n', '--wait'] };
-    }
-
-    // Default fallback - use VS Code
-    return { type: 'unknown', command: 'code', args: ['-n', '--wait'] };
+    // Default fallback - use nano first, fallback to code
+    return { type: 'unknown', command: 'nano', args: [] };
   }
 
   private async openInEditor(filePath: string): Promise<void> {
     const env = this.detectEnvironment();
     
+    // Try primary editor first
+    const success = await this.tryOpenEditor(env.command, [...env.args, filePath], env.type);
+    
+    // If nano failed and we're not already using VS Code, try VS Code as fallback
+    if (!success && env.command !== 'code') {
+      console.log('📝 Trying VS Code as fallback...');
+      await this.tryOpenEditor('code', ['-n', '--wait', filePath], 'fallback');
+    }
+  }
+
+  private async tryOpenEditor(command: string, args: string[], type: string): Promise<boolean> {
     try {
-      const args = [...env.args, filePath];
+      // Check if we're in an interactive terminal for terminal editors
+      const isInteractive = process.stdin.isTTY && process.stdout.isTTY;
+      const isTerminalEditor = command === 'nano' || command === 'vi' || command === 'vim';
       
-      // Use shell: true for Windows to properly handle the code command
-      const child = spawn(env.command, args, { 
-        stdio: 'pipe',
+      // If it's a terminal editor but not interactive, skip it
+      if (isTerminalEditor && !isInteractive) {
+        if (type !== 'fallback') {
+          console.log(`📝 Non-interactive terminal detected, skipping ${command}`);
+        }
+        return false;
+      }
+      
+      const spawnOptions = {
+        stdio: isTerminalEditor ? 'inherit' : 'pipe',
         shell: true,
         detached: false
-      });
+      } as const;
+
+      const child = spawn(command, args, spawnOptions);
 
       return new Promise((resolve) => {
         child.on('error', (error: Error) => {
-          console.warn(`⚠️  Could not open editor: ${error.message}`);
-          console.log(`📝 Please manually open: ${filePath}`);
-          resolve();
+          console.warn(`⚠️  Could not open ${command}: ${error.message}`);
+          if (type !== 'fallback') {
+            console.log(`📝 Please manually open: ${args[args.length - 1]}`);
+          }
+          resolve(false);
         });
 
         child.on('exit', (code: number | null) => {
-          if (code === 0 || env.type === 'vscode' || env.type === 'windows') {
-            // VS Code returns immediately on Windows, so we don't wait
-            resolve();
+          if (code === 0) {
+            resolve(true);
           } else if (code !== 0 && code !== null) {
-            console.warn(`⚠️  Editor exited with code ${code}`);
-            console.log(`📝 Please manually open: ${filePath}`);
-            resolve();
+            if (type !== 'fallback') {
+              console.warn(`⚠️  ${command} exited with code ${code}`);
+            }
+            resolve(false);
           } else {
-            resolve();
+            resolve(true);
           }
         });
 
-        // Add a timeout to avoid hanging
-        setTimeout(() => {
-          resolve();
-        }, 3000);
+        // For VS Code, add timeout since it returns immediately
+        if (command === 'code') {
+          setTimeout(() => {
+            resolve(true);
+          }, 2000);
+        }
       });
     } catch (error) {
-      console.warn(`⚠️  Could not open editor: ${error}`);
-      console.log(`📝 Please manually open: ${filePath}`);
+      console.warn(`⚠️  Could not open ${command}: ${error}`);
+      if (type !== 'fallback') {
+        console.log(`📝 Please manually open: ${args[args.length - 1]}`);
+      }
+      return false;
     }
   }
 
