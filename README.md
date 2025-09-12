@@ -1,6 +1,6 @@
 # Copilot Agent CLI
 
-[![npm version](https://badge.fury.io/js/copilot-agent-cli.svg)](https://badge.fury.io/js/copilot-agent-cli)
+[![npm version](https://img.shields.io/npm/v/copilot-agent-cli.svg)](https://www.npmjs.com/package/copilot-agent-cli)
 [![npm downloads](https://img.shields.io/npm/dm/copilot-agent-cli.svg)](https://www.npmjs.com/package/copilot-agent-cli)
 [![npm total downloads](https://img.shields.io/npm/dt/copilot-agent-cli.svg)](https://www.npmjs.com/package/copilot-agent-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
