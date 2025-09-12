@@ -136,7 +136,6 @@ The new modular architecture enables multiple agents to work on different parts 
 
 ### Key Features
 
-- **Case-insensitive agent names**: Agent names can be typed in any case (e.g., `plan`, `PLAN`, `Plan`)
 - **Built-in Helloworld Agent**: Special `helloworld` agent that auto-creates on first run
   - Creates `helloworld.prompt.md` in global prompts directory if not exists
   - Contains YAML front matter: `mode: agent`, `model: GPT-5`, `tools: ['fetch']`

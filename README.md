@@ -18,7 +18,6 @@ A comprehensive CLI tool to automate GitHub Copilot prompts as agents, featuring
 - 💬 **Easy Feedback**: Simple feedback submission directly to GitHub issues
 - 🎯 **Smart Context**: Intelligent context handling based on terminal environment
 - 📁 **Flexible Organization**: Support for both global and project-level agents
-- 🔍 **Case-Insensitive**: Agent names work regardless of case
 
 ## Installation
 
@@ -86,8 +85,6 @@ This command provides guidance on creating new agent prompt files, including fil
 copilot agent run <agent-name> [context]
 ```
 
-Agent names are case-insensitive for convenience.
-
 Examples:
 ```bash
 # Run agent without additional context
@@ -95,9 +92,6 @@ copilot agent run submitForms
 
 # Run agent with additional context
 copilot agent run submitForms "我的一些补充信息"
-
-# Case-insensitive agent names work too
-copilot agent run SUBMITFORMS "uppercase works"
 
 # Try the built-in helloworld agent (auto-creates on first run)
 copilot agent run helloworld
@@ -116,7 +110,6 @@ This agent:
 - Provides a friendly greeting and overview of the copilot agent CLI tool
 - Uses GPT-5 model with fetch tool capability
 - Appears in your agent list after creation
-- Works with case-insensitive names (`helloworld`, `HELLOWORLD`, etc.)
 
 ### Update Management
 
