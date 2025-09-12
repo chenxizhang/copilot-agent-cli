@@ -17,3 +17,6 @@ coverage/
 
 # Test files - do not commit
 .github/
+
+# Claude Code configuration
+.claude/
