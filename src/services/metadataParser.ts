@@ -42,6 +42,7 @@ export class MetadataParserService {
     }
   }
 
+
   private extractFilename(filePath: string): string {
     const parts = filePath.split(/[/\\]/);
     const filename = parts[parts.length - 1];

@@ -174,4 +174,5 @@ describe('TableFormatterService', () => {
     // Full content should be longer or equal
     expect(fullResult.length).toBeGreaterThanOrEqual(normalResult.length);
   });
+
 });

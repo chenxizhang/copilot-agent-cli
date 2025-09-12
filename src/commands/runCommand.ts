@@ -12,6 +12,11 @@ export class RunCommand extends BaseCommand {
         SERVICE_TOKENS.VSCODE_INTEGRATION
       );
 
+      // Special handling for helloworld - auto-create if not exists
+      if (agentName.toLowerCase() === 'helloworld') {
+        await this.ensureHelloworldExists();
+      }
+
       const agent = promptService.findAgent(agentName);
 
       if (!agent) {
@@ -49,6 +54,44 @@ export class RunCommand extends BaseCommand {
       );
       process.exit(1);
     }
+  }
+
+  private async ensureHelloworldExists(): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
+    const os = await import('os');
+    
+    const globalPromptsPath = path.join(
+      os.homedir(),
+      'AppData',
+      'Roaming',
+      'Code',
+      'User',
+      'prompts'
+    );
+    
+    const helloworldFilePath = path.join(globalPromptsPath, 'helloworld.prompt.md');
+    
+    // Check if file already exists
+    if (fs.existsSync(helloworldFilePath)) {
+      return;
+    }
+    
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(globalPromptsPath)) {
+      fs.mkdirSync(globalPromptsPath, { recursive: true });
+    }
+    
+    // Create the helloworld.prompt.md file
+    const helloworldContent = `---
+mode: agent
+model: GPT-5
+tools: ['fetch']
+---
+
+Greeting to user, and give a overview of the copilot agent cli tool, reference to https://www.npmjs.com/package/copilot-agent-cli`;
+    
+    fs.writeFileSync(helloworldFilePath, helloworldContent, 'utf8');
   }
 
   createCommand(): Command {
