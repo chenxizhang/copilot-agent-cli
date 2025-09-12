@@ -34,6 +34,16 @@ npm run build
 npm install -g .
 ```
 
+## Quick Start
+
+After installation, try the built-in helloworld agent to get started:
+
+```bash
+copilot agent run helloworld
+```
+
+This will automatically create your first agent and give you an overview of the CLI tool. The agent will appear in VS Code with a friendly greeting and introduction to help you get familiar with the system.
+
 ## Usage
 
 ### Agent Management
