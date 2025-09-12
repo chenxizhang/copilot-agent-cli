@@ -73,33 +73,37 @@ Provide examples of how to use this agent.
   }
 
   private detectEnvironment(): { type: string; command: string; args: string[] } {
-    // Check for VS Code terminal
-    if (process.env.TERM_PROGRAM === 'vscode' || process.env.VSCODE_INJECTION === '1') {
+    // Check for VS Code terminal first
+    if (process.env.TERM_PROGRAM === 'vscode' || 
+        process.env.VSCODE_INJECTION === '1' ||
+        process.env.VSCODE_PID ||
+        process.env.VSCODE_GIT_ASKPASS_NODE ||
+        process.env.VSCODE_GIT_IPC_HANDLE) {
       return { type: 'vscode', command: 'code', args: ['-r'] };
     }
 
-    // Check for Bash environments (including Git Bash on Windows)
-    if (process.env.SHELL?.includes('bash') || process.env.WSL_DISTRO_NAME) {
-      return { type: 'bash', command: 'nano', args: [] };
-    }
-
-    // Check for Linux (non-bash shells)
-    if (process.platform === 'linux') {
-      return { type: 'linux', command: 'nano', args: [] };
-    }
-
-    // Check for Windows environments
+    // Windows environments - always use VS Code
     if (process.platform === 'win32') {
-      // Check for PowerShell
-      if (process.env.PSModulePath || process.env.SHELL?.includes('powershell')) {
-        return { type: 'powershell', command: 'code', args: [] };
-      }
-      // Default to Windows Command Prompt
-      return { type: 'cmd', command: 'code', args: [] };
+      return { type: 'windows', command: 'code', args: ['-n', '--wait'] };
     }
 
-    // Default fallback
-    return { type: 'unknown', command: 'code', args: [] };
+    // WSL environment
+    if (process.env.WSL_DISTRO_NAME) {
+      return { type: 'wsl', command: 'code', args: ['-n', '--wait'] };
+    }
+
+    // Git Bash on Windows
+    if (process.env.SHELL?.includes('bash') && process.env.OS === 'Windows_NT') {
+      return { type: 'gitbash', command: 'code', args: ['-n', '--wait'] };
+    }
+
+    // Linux/Unix environments
+    if (process.platform === 'linux' || process.platform === 'darwin') {
+      return { type: 'unix', command: 'code', args: ['-n', '--wait'] };
+    }
+
+    // Default fallback - use VS Code
+    return { type: 'unknown', command: 'code', args: ['-n', '--wait'] };
   }
 
   private async openInEditor(filePath: string): Promise<void> {
@@ -107,26 +111,38 @@ Provide examples of how to use this agent.
     
     try {
       const args = [...env.args, filePath];
+      
+      // Use shell: true for Windows to properly handle the code command
       const child = spawn(env.command, args, { 
-        stdio: 'inherit',
+        stdio: 'pipe',
+        shell: true,
         detached: false
       });
 
       return new Promise((resolve) => {
-        child.on('error', (error) => {
+        child.on('error', (error: Error) => {
           console.warn(`⚠️  Could not open editor: ${error.message}`);
           console.log(`📝 Please manually open: ${filePath}`);
           resolve();
         });
 
-        child.on('exit', (code) => {
-          if (code === 0 || env.type === 'vscode') {
-            // VS Code returns immediately, so we don't wait
+        child.on('exit', (code: number | null) => {
+          if (code === 0 || env.type === 'vscode' || env.type === 'windows') {
+            // VS Code returns immediately on Windows, so we don't wait
+            resolve();
+          } else if (code !== 0 && code !== null) {
+            console.warn(`⚠️  Editor exited with code ${code}`);
+            console.log(`📝 Please manually open: ${filePath}`);
             resolve();
           } else {
             resolve();
           }
         });
+
+        // Add a timeout to avoid hanging
+        setTimeout(() => {
+          resolve();
+        }, 3000);
       });
     } catch (error) {
       console.warn(`⚠️  Could not open editor: ${error}`);
