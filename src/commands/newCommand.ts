@@ -280,6 +280,7 @@ Provide examples of how to use this agent.
   createCommand(): Command {
     return new Command('new')
       .description('Create a new agent prompt file')
+      .usage('[agent-name] [options]')
       .argument('[agent-name]', 'Name of the agent to create')
       .option('--global', 'Create in global location instead of project')
       .action((agentName, options) => this.execute(agentName, options));

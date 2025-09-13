@@ -79,9 +79,10 @@ export class DeleteCommand extends BaseCommand {
   createCommand(): Command {
     return new Command('delete')
       .description('Delete an agent')
+      .usage('<agent-name> [options]')
       .argument('<agent-name>', 'Name of the agent to delete')
       .option('-y, --yes', 'Skip confirmation prompt')
-      .action(async (agentName: string, options: DeleteOptions) => 
+      .action(async (agentName: string, options: DeleteOptions) =>
         this.execute(agentName, options)
       );
   }

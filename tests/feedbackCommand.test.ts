@@ -33,9 +33,9 @@ describe('FeedbackCommand', () => {
     expect(options.length).toBe(0);
   });
 
-  test('should open GitHub issues page', async () => {
+  test('should open GitHub new issue page', async () => {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-    
+
     // Mock exec to simulate successful browser opening
     const { exec } = require('child_process');
     exec.mockImplementation((cmd: string, callback: Function) => {
@@ -45,10 +45,10 @@ describe('FeedbackCommand', () => {
     await command.execute();
 
     expect(consoleSpy).toHaveBeenCalledWith('🚀 Thanks for wanting to provide feedback!');
-    expect(consoleSpy).toHaveBeenCalledWith('🌐 Opening GitHub issues page in your browser...\n');
+    expect(consoleSpy).toHaveBeenCalledWith('🌐 Opening GitHub new issue page in your browser...\n');
     expect(consoleSpy).toHaveBeenCalledWith('✅ Browser opened successfully!');
-    expect(consoleSpy).toHaveBeenCalledWith('📋 Please create a new issue to submit your feedback.');
-    
+    expect(consoleSpy).toHaveBeenCalledWith('📋 You can now submit your feedback directly.');
+
     consoleSpy.mockRestore();
   });
 
@@ -64,7 +64,7 @@ describe('FeedbackCommand', () => {
     await command.execute();
 
     expect(consoleSpy).toHaveBeenCalledWith('⚠️  Could not open browser automatically.');
-    expect(consoleSpy).toHaveBeenCalledWith('📋 Please visit: https://github.com/chenxizhang/copilot-agent-cli/issues');
+    expect(consoleSpy).toHaveBeenCalledWith('📋 Please visit: https://github.com/chenxizhang/copilot-agent-cli/issues/new');
     
     consoleSpy.mockRestore();
   });

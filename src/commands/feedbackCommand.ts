@@ -27,10 +27,10 @@ export class FeedbackCommand extends BaseCommand {
   async execute(): Promise<void> {
     try {
       console.log('🚀 Thanks for wanting to provide feedback!');
-      console.log('🌐 Opening GitHub issues page in your browser...\n');
-      
-      const issuesUrl = `${this.repoUrl}/issues`;
-      await this.openInBrowser(issuesUrl);
+      console.log('🌐 Opening GitHub new issue page in your browser...\n');
+
+      const newIssueUrl = `${this.repoUrl}/issues/new`;
+      await this.openInBrowser(newIssueUrl);
 
     } catch (error) {
       this.handleError(error);
@@ -52,7 +52,7 @@ export class FeedbackCommand extends BaseCommand {
       
       await execAsync(command);
       console.log('✅ Browser opened successfully!');
-      console.log('📋 Please create a new issue to submit your feedback.');
+      console.log('📋 You can now submit your feedback directly.');
     } catch (error) {
       console.log('⚠️  Could not open browser automatically.');
       console.log(`📋 Please visit: ${url}`);
@@ -63,6 +63,6 @@ export class FeedbackCommand extends BaseCommand {
     console.error('\n❌ Failed to open feedback page.');
     console.error(`💥 ${error.message}`);
     console.log('\n🔧 You can submit feedback manually at:');
-    console.log(`   ${this.repoUrl}/issues`);
+    console.log(`   ${this.repoUrl}/issues/new`);
   }
 }
