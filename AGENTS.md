@@ -108,6 +108,7 @@ copilot agent ls [options]                  # Alias for list command
 copilot agent run <agent-name> [context]    # Run agent with optional context
 copilot agent new                            # Guide to create new agent prompt files
 copilot agent delete <agent-name> [options] # Delete agent prompt files
+copilot agent edit <agent-name>             # Open existing agent prompt file in editor
 
 # Update Management
 copilot update [options]                     # Check for and install updates
@@ -133,6 +134,15 @@ copilot agent delete <agent-name> --yes     # Delete without confirmation
 ```
 
 #### Update Command Options
+#### Edit Command
+```
+copilot agent edit <agent-name>             # Opens the agent's underlying .prompt.md file in an editor
+```
+Behavior:
+- Detects environment (VS Code terminal vs external) and prefers VS Code on Windows
+- Falls back from terminal editor (nano) to VS Code if available
+- Provides clear errors if agent or file not found
+
 ```
 copilot update --check-only                 # Only check for updates
 copilot update --yes                        # Update without confirmation

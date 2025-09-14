@@ -7,3 +7,4 @@ export * from './feedbackCommand';
 export * from './agentCommandFactory';
 export * from './shareCommand';
 export * from './installCommand';
+export * from './editCommand';
