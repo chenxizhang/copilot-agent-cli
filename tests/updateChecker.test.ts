@@ -47,7 +47,7 @@ describe('UpdateCheckerService', () => {
 
     expect(result).toEqual({
       hasUpdate: true,
-      currentVersion: '1.3.0',
+      currentVersion: '1.4.0',
       latestVersion: '2.0.0'
     });
   });
@@ -57,7 +57,7 @@ describe('UpdateCheckerService', () => {
     const mockResponse = {
       on: jest.fn((event, callback) => {
         if (event === 'data') {
-          callback(JSON.stringify({ 'dist-tags': { latest: '1.3.0' } }));
+          callback(JSON.stringify({ 'dist-tags': { latest: '1.4.0' } }));
         } else if (event === 'end') {
           callback();
         }
@@ -83,8 +83,8 @@ describe('UpdateCheckerService', () => {
 
     expect(result).toEqual({
       hasUpdate: false,
-      currentVersion: '1.3.0',
-      latestVersion: '1.3.0'
+      currentVersion: '1.4.0',
+      latestVersion: '1.4.0'
     });
   });
 
