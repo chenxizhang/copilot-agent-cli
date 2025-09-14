@@ -29,3 +29,25 @@ export interface IUpdateCheckerService {
   checkForUpdates(): Promise<{ hasUpdate: boolean; currentVersion: string; latestVersion: string } | null>;
   displayUpdateNotification(currentVersion: string, latestVersion: string): void;
 }
+
+// Packaging service for sharing/installing agents without uploading to cloud
+export interface IPackagingService {
+  /**
+   * Create a .agents package file containing the specified agent prompt files.
+   * @param agents Agents to include (filePath must exist)
+   * @param outputDir Directory where package file will be written
+   * @param packageName Optional base name (without extension). If omitted, generated automatically.
+   * @returns Full path to created package file
+   */
+  createPackage(agents: Agent[], outputDir: string, packageName?: string): string;
+
+  /**
+   * Extract a .agents package file (gzip JSON format) and return agent contents.
+   * Does not write files.
+   */
+  extractPackage(packageFilePath: string): {
+    version: number;
+    createdAt: string;
+    agents: { name: string; content: string }[];
+  };
+}

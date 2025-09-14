@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name('copilot')
   .description('CLI tool to automate GitHub Copilot prompts as agents')
-  .version('1.1.0');
+  .version('1.3.0');
 
 // Initialize dependency injection container
 const container = registerServices();
@@ -24,7 +24,7 @@ async function checkForUpdatesIfFirstCommand(): Promise<void> {
 
     if (sessionTracker.isFirstCommandInSession()) {
       sessionTracker.markSessionStarted();
-      
+
       const updateInfo = await updateChecker.checkForUpdates();
       if (updateInfo && updateInfo.hasUpdate) {
         updateChecker.displayUpdateNotification(updateInfo.currentVersion, updateInfo.latestVersion);

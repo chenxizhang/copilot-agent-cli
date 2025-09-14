@@ -4,3 +4,4 @@ export * from './sessionTracking';
 export * from './updateChecker';
 export * from './metadataParser';
 export * from './tableFormatter';
+export * from './packagingService';

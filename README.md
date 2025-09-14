@@ -115,7 +115,7 @@ Examples:
 copilot agent run submitForms
 
 # Run agent with additional context
-copilot agent run submitForms "我的一些补充信息"
+copilot agent run submitForms "some additional context from me"
 
 # Try the built-in helloworld agent (auto-creates on first run)
 copilot agent run helloworld
@@ -262,3 +262,93 @@ When you run an agent, the tool:
 5. Executes `code chat -a "<prompt-file-path>" "<context>"` with appropriate flags
 
 This leverages VS Code's built-in chat functionality and your existing GitHub Copilot setup, with smart window management based on where you run the command.
+
+## Share & Install Agents
+
+> Added in vNEXT: Secure local sharing via `.agents` files. No cloud upload. Suitable for internal/private usage.
+
+### Package (Share)
+
+Create a package from one or more agents:
+
+```bash
+copilot agent share myAgentA myAgentB
+```
+
+Package all agents:
+
+```bash
+copilot agent share --all
+```
+
+Custom package name and output directory:
+
+```bash
+copilot agent share myAgent --name custom-pack --output-dir ./dist
+```
+
+The generated file uses the `.agents` extension and is stored by default in:
+
+```
+~/copilot-agent-packages
+```
+
+### Install
+
+Install from a received `.agents` file:
+
+```bash
+copilot agent install path/to/file.agents
+```
+
+By default installs into the global prompts directory (`$HOME/AppData/Roaming/Code/User/prompts`). Use `--target project` to install into the current project's `.github/prompts/` folder.
+
+Specify target location:
+
+```bash
+copilot agent install file.agents --target project
+copilot agent install file.agents --target global
+```
+
+Overwrite existing files:
+
+```bash
+copilot agent install file.agents --force
+```
+
+### Package File Format
+
+`.agents` file = gzip + JSON, containing:
+
+- version / createdAt
+- agents: [{ name, content }]
+- No upload / no network access
+
+### Example Workflow
+
+1. Developer A packages:
+   ```bash
+   copilot agent share data-clean report-gen --name data-tools
+   ```
+2. Send the resulting `data-tools.agents` file to Developer B (any secure channel: internal drive/IM/etc.).
+3. Developer B installs globally (default):
+   ```bash
+   copilot agent install ~/Downloads/data-tools.agents
+   ```
+4. (Optional) Install into project instead:
+    ```bash
+    copilot agent install ~/Downloads/data-tools.agents --target project
+    ```
+5. Verify:
+   ```bash
+   copilot agent list
+   ```
+
+### Design Principles
+
+- No upload: 100% local filesystem operations
+- Auditable: gzip + JSON, easily inspectable
+- Controlled overwrite: never overwrites unless `--force`
+- Portable: single-file distribution
+
+Want enhancements (signatures, integrity hash, selective metadata filtering)? Open an issue or PR.

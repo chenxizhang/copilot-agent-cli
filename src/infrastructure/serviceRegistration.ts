@@ -1,5 +1,5 @@
 import { ServiceContainer, SERVICE_TOKENS } from '../core';
-import { PromptDiscoveryService, VSCodeIntegrationService, SessionTrackingService, UpdateCheckerService } from '../services';
+import { PromptDiscoveryService, VSCodeIntegrationService, SessionTrackingService, UpdateCheckerService, PackagingService } from '../services';
 
 export function registerServices(): ServiceContainer {
   const container = new ServiceContainer();
@@ -9,6 +9,7 @@ export function registerServices(): ServiceContainer {
   container.register(SERVICE_TOKENS.VSCODE_INTEGRATION, new VSCodeIntegrationService());
   container.register(SERVICE_TOKENS.SESSION_TRACKING, new SessionTrackingService());
   container.register(SERVICE_TOKENS.UPDATE_CHECKER, new UpdateCheckerService());
+  container.register(SERVICE_TOKENS.PACKAGING, new PackagingService());
 
   return container;
 }

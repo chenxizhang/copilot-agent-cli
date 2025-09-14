@@ -25,4 +25,5 @@ export const SERVICE_TOKENS = {
   VSCODE_INTEGRATION: 'VSCodeIntegrationService',
   SESSION_TRACKING: 'SessionTrackingService',
   UPDATE_CHECKER: 'UpdateCheckerService',
+  PACKAGING: 'PackagingService',
 } as const;

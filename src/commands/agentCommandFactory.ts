@@ -4,9 +4,11 @@ import { ListCommand } from './listCommand';
 import { RunCommand } from './runCommand';
 import { NewCommand } from './newCommand';
 import { DeleteCommand } from './deleteCommand';
+import { ShareCommand } from './shareCommand';
+import { InstallCommand } from './installCommand';
 
 export class AgentCommandFactory {
-  constructor(private container: IServiceContainer) {}
+  constructor(private container: IServiceContainer) { }
 
   createAgentCommand(): Command {
     const command = new Command('agent');
@@ -16,11 +18,15 @@ export class AgentCommandFactory {
     const runCommand = new RunCommand(this.container);
     const newCommand = new NewCommand(this.container);
     const deleteCommand = new DeleteCommand(this.container);
+    const shareCommand = new ShareCommand(this.container);
+    const installCommand = new InstallCommand(this.container);
 
     command.addCommand(listCommand.createCommand());
     command.addCommand(runCommand.createCommand());
     command.addCommand(newCommand.createCommand());
     command.addCommand(deleteCommand.createCommand());
+    command.addCommand(shareCommand.createCommand());
+    command.addCommand(installCommand.createCommand());
 
     return command;
   }

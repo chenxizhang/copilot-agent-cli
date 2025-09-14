@@ -5,3 +5,5 @@ export * from './newCommand';
 export * from './updateCommand';
 export * from './feedbackCommand';
 export * from './agentCommandFactory';
+export * from './shareCommand';
+export * from './installCommand';
