@@ -34,7 +34,7 @@ export class RunCommand extends BaseCommand {
         process.exit(1);
       }
 
-      const finalContext = context 
+      const finalContext = context
         ? `Follow the instructions from the file. ${context}`
         : 'Follow the instructions from the file.';
 
@@ -60,7 +60,7 @@ export class RunCommand extends BaseCommand {
     const fs = await import('fs');
     const path = await import('path');
     const os = await import('os');
-    
+
     const globalPromptsPath = path.join(
       os.homedir(),
       'AppData',
@@ -69,19 +69,19 @@ export class RunCommand extends BaseCommand {
       'User',
       'prompts'
     );
-    
+
     const helloworldFilePath = path.join(globalPromptsPath, 'helloworld.prompt.md');
-    
+
     // Check if file already exists
     if (fs.existsSync(helloworldFilePath)) {
       return;
     }
-    
+
     // Create directory if it doesn't exist
     if (!fs.existsSync(globalPromptsPath)) {
       fs.mkdirSync(globalPromptsPath, { recursive: true });
     }
-    
+
     // Create the helloworld.prompt.md file
     const helloworldContent = `---
 mode: agent
@@ -89,8 +89,8 @@ model: GPT-5
 tools: ['fetch']
 ---
 
-Greeting to user, and give a overview of the copilot agent cli tool, reference to https://www.npmjs.com/package/copilot-agent-cli`;
-    
+Greeting to user, and give a overview of the copilot agent cli tool. Before you respond to the user, fetch and review the page https://www.npmjs.com/package/copilot-agent-cli so your overview reflects the current published information.`;
+
     fs.writeFileSync(helloworldFilePath, helloworldContent, 'utf8');
   }
 
@@ -99,7 +99,7 @@ Greeting to user, and give a overview of the copilot agent cli tool, reference t
       .description('Run a specific agent')
       .argument('<agent-name>', 'Name of the agent to run')
       .argument('[context]', 'Optional context to pass to the agent')
-      .action(async (agentName: string, context?: string) => 
+      .action(async (agentName: string, context?: string) =>
         this.execute(agentName, context)
       );
   }

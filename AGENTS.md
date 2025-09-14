@@ -155,7 +155,7 @@ The new modular architecture enables multiple agents to work on different parts 
 - **Built-in Helloworld Agent**: Special `helloworld` agent that auto-creates on first run
   - Creates `helloworld.prompt.md` in global prompts directory if not exists
   - Contains YAML front matter: `mode: agent`, `model: GPT-5`, `tools: ['fetch']`
-  - Provides greeting and CLI tool overview referencing https://www.npmjs.com/package/copilot-agent-cli
+  - Provides greeting and CLI tool overview; before responding it fetches and reviews https://www.npmjs.com/package/copilot-agent-cli to ensure information is current
   - Appears in agent list after creation as normal global agent
 - **Smart context handling**: 
   - No context: `"Follow the instructions from the file."`
