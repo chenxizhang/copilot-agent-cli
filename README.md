@@ -265,7 +265,7 @@ This leverages VS Code's built-in chat functionality and your existing GitHub Co
 
 ## Share & Install Agents
 
-> Added in vNEXT: Secure local sharing via `.agents` files. No cloud upload. Suitable for internal/private usage.
+Introduced in v1.5.0: Secure local sharing via `.agents` files. No cloud upload. Suitable for internal/private usage.
 
 ### Package (Share)
 

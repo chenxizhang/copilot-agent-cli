@@ -19,7 +19,18 @@ This file provides context guidance to GitHub Copilot when working with code in 
 - `npm start` - Run the compiled CLI tool locally
 - `npm install -g .` - Install the CLI tool globally for testing
 
-## New Features (v1.3.0)
+## New Features (v1.5.0)
+
+### Packaging & Sharing (.agents bundles)
+- **Local Packaging**: `copilot agent share` creates gzip+JSON `.agents` bundles containing selected or all agents
+- **Selective Export**: Provide explicit agent names or `--all` to export every discovered agent
+- **Custom Output**: `--name` for bundle base name, `--output-dir` for destination directory (default: `~/copilot-agent-packages`)
+- **Deterministic Format**: `{ version, createdAt, agents:[{ name, content }] }` compressed with gzip – auditable and offline-friendly
+- **Installation**: `copilot agent install <file.agents>` installs into global prompts; `--target project` installs into `.github/prompts/`
+- **Safety**: Existing prompt files are not overwritten unless `--force` is provided
+- **No Network I/O**: 100% local filesystem operations; suitable for secure / air‑gapped environments
+
+### Earlier Additions (v1.3.0 – v1.4.x)
 
 ### Enhanced Agent List Command
 - **Rich Metadata Display**: Beautiful ASCII table showing agent name, description, scope, mode, model, and tools
@@ -185,3 +196,7 @@ All file path operations use Node.js path module for cross-platform compatibilit
 - VS Code availability is checked before execution
 - Invalid command arguments are handled by Commander.js validation
 - Case-insensitive agent name matching for better user experience
+
+### Prompt File Authoring Note (v1.5.x)
+
+- New agent files created by `copilot agent new` place YAML front matter at the very first line (no leading comments). Allowed metadata fields currently recognized: `mode`, `model`, `tools`, `description`. The default template sets `mode: agent`, `model: GPT-5 (copilot)`, and an empty `tools: []` array plus a placeholder `description`. Keep the front matter block at the top for consistent parsing; add documentation after the terminating `---`.

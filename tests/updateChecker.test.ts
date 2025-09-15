@@ -47,7 +47,7 @@ describe('UpdateCheckerService', () => {
 
     expect(result).toEqual({
       hasUpdate: true,
-      currentVersion: '1.4.0',
+      currentVersion: '1.5.0',
       latestVersion: '2.0.0'
     });
   });
@@ -81,9 +81,10 @@ describe('UpdateCheckerService', () => {
 
     const result = await service.checkForUpdates();
 
+    // latest mocked = 1.4.0 < current 1.5.0 -> no update (no downgrade prompt)
     expect(result).toEqual({
       hasUpdate: false,
-      currentVersion: '1.4.0',
+      currentVersion: '1.5.0',
       latestVersion: '1.4.0'
     });
   });

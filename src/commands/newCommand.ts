@@ -52,33 +52,35 @@ export class NewCommand extends BaseCommand {
   }
 
   private generateTemplate(agentName: string): string {
-    return `<!-- Welcome to use copilot agent cli, you are creating a new agent, send us feedback by run the \`copilot feedback\` command if you have any questions. -->
----
+    return `---
 mode: agent
-model: GPT-4
+model: GPT-5 (copilot)
 tools: []
-scope: project
+description: ${agentName} agent description (edit this)
 ---
 
 # ${agentName} Agent
 
-Write your instructions here. Please reference https://code.visualstudio.com/docs/copilot/customization/prompt-files to get more details.
+Write your instructions here. Please reference https://code.visualstudio.com/docs/copilot/customization/prompt-files for details.
 
 ## Purpose
 Describe what this agent does and when to use it.
 
 ## Usage
 Provide examples of how to use this agent.
+
+## Notes
+You can add more metadata fields later; front matter must remain at the very top of the file.
 `;
   }
 
   private detectEnvironment(): { type: string; command: string; args: string[] } {
     // Check for VS Code terminal first
-    if (process.env.TERM_PROGRAM === 'vscode' || 
-        process.env.VSCODE_INJECTION === '1' ||
-        process.env.VSCODE_PID ||
-        process.env.VSCODE_GIT_ASKPASS_NODE ||
-        process.env.VSCODE_GIT_IPC_HANDLE) {
+    if (process.env.TERM_PROGRAM === 'vscode' ||
+      process.env.VSCODE_INJECTION === '1' ||
+      process.env.VSCODE_PID ||
+      process.env.VSCODE_GIT_ASKPASS_NODE ||
+      process.env.VSCODE_GIT_IPC_HANDLE) {
       return { type: 'vscode', command: 'code', args: ['-r'] };
     }
 
@@ -113,10 +115,10 @@ Provide examples of how to use this agent.
 
   private async openInEditor(filePath: string): Promise<void> {
     const env = this.detectEnvironment();
-    
+
     // Try primary editor first
     const success = await this.tryOpenEditor(env.command, [...env.args, filePath], env.type);
-    
+
     // If nano failed and we're not already using VS Code, try VS Code as fallback
     if (!success && env.command !== 'code') {
       console.log('📝 Trying VS Code as fallback...');
@@ -129,7 +131,7 @@ Provide examples of how to use this agent.
       // Check if we're in an interactive terminal for terminal editors
       const isInteractive = process.stdin.isTTY && process.stdout.isTTY;
       const isTerminalEditor = command === 'nano' || command === 'vi' || command === 'vim';
-      
+
       // If it's a terminal editor but not interactive, skip it
       if (isTerminalEditor && !isInteractive) {
         if (type !== 'fallback') {
@@ -137,7 +139,7 @@ Provide examples of how to use this agent.
         }
         return false;
       }
-      
+
       const spawnOptions = {
         stdio: isTerminalEditor ? 'inherit' : 'pipe',
         shell: true,
@@ -259,18 +261,18 @@ Provide examples of how to use this agent.
 
     try {
       fs.writeFileSync(filePath, template, 'utf8');
-      
+
       console.log(`✅ Agent '${agentName}' created successfully!`);
       console.log(`📁 Location: ${filePath}`);
       console.log(`🏷️  Scope: ${location}`);
       console.log('📝 Opening in editor...');
-      
+
       // Open in editor
       await this.openInEditor(filePath);
-      
+
       console.log('');
       console.log(`💡 Use 'copilot agent run ${agentName}' to test your new agent`);
-      
+
     } catch (error) {
       console.error(`❌ Could not create file: ${filePath}`);
       console.error(`   Error: ${error}`);

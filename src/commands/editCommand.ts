@@ -1,6 +1,5 @@
 import { Command } from 'commander';
 import * as fs from 'fs';
-import * as path from 'path';
 import { spawn } from 'child_process';
 import { BaseCommand } from './base';
 import { IPromptDiscoveryService, SERVICE_TOKENS } from '../core';
